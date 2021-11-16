@@ -16,8 +16,6 @@ const urlParams = new URLSearchParams(queryString);
 const username  = urlParams.get('username');
 const tokentyp  = urlParams.get('token_type');
 
-$("#viewh1").append(`<b>${username}</b>'s transactions (${tokentyp})`);
-
 $.ajax(
 {
   url: 'https://api2.splinterlands.com/players/balance_history?username='+username+'&token_type='+tokentyp,
@@ -25,6 +23,7 @@ $.ajax(
   type : 'GET',
   success: function(datas)
   {
+    $("#viewh1").append(`<b>${username}</b>'s transactions (${tokentyp})`);
     datas.forEach((element) =>
     {
       console.log(element);
@@ -37,7 +36,7 @@ $.ajax(
           </li>`);
         break;
         case 'token_transfer': // Token transfer
-          if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc")
+          if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc" || element.counterparty === "sl-eth")
             element.counterparty = "(DEX) "+element.counterparty;
           else
             element.counterparty = "<a href='"+weburl+"?username="+element.counterparty+"&token_type="+tokentyp+"'>"+element.counterparty+"</a>";
@@ -126,7 +125,7 @@ $.ajax(
           </li>`);
         break;
         case 'withdraw': // Token transfer (DEC)
-          if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc")
+          if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc" || element.counterparty === "sl-eth")
             element.counterparty = "(DEX) "+element.counterparty;
           else
             element.counterparty = "<a href='"+weburl+"?username="+element.counterparty+"&token_type="+tokentyp+"'>"+element.counterparty+"</a>";
@@ -147,6 +146,25 @@ $.ajax(
         case 'rental_refund': // Refund rental
           $("#view").append(`<li class="w3-padding-small w3-pale-green"><i class="fas fa-dollar-sign"></i>
           <i>${day.toLocaleString()}</i> - <b>${element.player}</b> earn <b>${element.amount}</b> ${tokentyp} <b>(Rental refund)</b> 
+          </li>`);
+        break;
+        case 'market_purchase': // Market purchase
+          if(element.amount > 0)
+          {
+            $("#view").append(`<li class="w3-padding-small w3-pale-green"><i class="fas fa-dollar-sign"></i>
+            <i>${day.toLocaleString()}</i> - <b>${element.player}</b> earn <b>${element.amount}</b> ${tokentyp} from <b>${element.counterparty}</b> (Market sell)
+            </li>`);
+          }
+          else
+          {
+            $("#view").append(`<li class="w3-padding-small w3-pale-red"><i class="fas fa-dollar-sign"></i>
+          <i>${day.toLocaleString()}</i> - <b>${element.player}</b> spend <b>${element.amount}</b> ${tokentyp} to <b>${element.counterparty}</b> (Market buy)
+          </li>`);
+          }
+        break;
+        case 'market_fees': // Market fee
+          $("#view").append(`<li class="w3-padding-small w3-light-grey"><i class="fas fa-dollar-sign"></i>
+          <i>${day.toLocaleString()}</i> - <b>${element.player}</b> pain <b>${element.amount}</b> ${tokentyp} <b>(Market fee)</b> 
           </li>`);
         break;
         default:
