@@ -153,10 +153,10 @@ function View(info)
 	if (info.PSEUDO === "smalp" || info.PSEUDO === "spswhale" || info.PSEUDO === "tendershepard")
 		info.PSEUDO = info.PSEUDO+" (Aggroed)";
 	$("#view").append(`<div class='w3-container w3-border w3-round-xlarge w3-gray w3-margin'><h3 class='w3-bottombar'>${info.PSEUDO}</h3>
-		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/11035.png'> SPS : ${info.SPS.toLocaleString()} ${Change(info.SPS,last.SPS, "sps")} || <a href="${weburl}/tx.html?username=${info.PSEUDO}&token_type=SPS">last tx</a></div>
+		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/11035.png'> SPS : ${info.SPS.toLocaleString()} ${Change(info.SPS,last.SPS, "sps")} || <a href="${weburl}tx.html?username=${info.PSEUDO}&token_type=SPS">last tx</a></div>
 		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/11035.png'> SPS staked : ${info.SPSP.toLocaleString()} ${Change(info.SPSP,last.SPSP, "sps")}</div>
-		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/6264.png'> DEC : ${info.DEC.toLocaleString()} ${Change(info.DEC,last.DEC, "dec")}</div>
-		<div><img style="width:32px;" class="w3-image" src='https://d36mxiodymuqjm.cloudfront.net/website/icons/img_voucher_chaos-legion_200.png'> Voucher : ${info.VOUCHER.toLocaleString()} ${Change(info.VOUCHER,last.VOUCHER, "voucher")}</div>
+		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/6264.png'> DEC : ${info.DEC.toLocaleString()} ${Change(info.DEC,last.DEC, "dec")}  || <a href="${weburl}tx.html?username=${info.PSEUDO}&token_type=DEC">last tx</a></div>
+		<div><img style="width:32px;" class="w3-image" src='https://d36mxiodymuqjm.cloudfront.net/website/icons/img_voucher_chaos-legion_200.png'> Voucher : ${info.VOUCHER.toLocaleString()} ${Change(info.VOUCHER,last.VOUCHER, "voucher")}  || <a href="${weburl}tx.html?username=${info.PSEUDO}&token_type=VOUCHER">last tx</a></div>
 		<div><img style="width:32px;" class="w3-image" src='https://i.imgur.com/wLuSPIt.png'> Packs Chaos Legion : ${info.CHAOS.toLocaleString()} ${Change(info.CHAOS,last.CHAOS, "chaos")}</div>
 		<div><img style="width:32px;" class="w3-image" src='https://cdn.pixabay.com/photo/2020/04/03/07/07/comic-speech-bubbles-4997664_960_720.png'> Power : ${info.POWER.toLocaleString()} ${Change(info.POWER,last.POWER, "power")}</div>
 		</div>`);
