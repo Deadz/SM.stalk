@@ -151,6 +151,7 @@ function Change(qty, last, asset)
 function View(info)
 {
 	last = JSON.parse(localStorage.getItem(info.PSEUDO));
+	let pseudo = info.PSEUDO;
 	if (info.PSEUDO === "smalp" || info.PSEUDO === "spswhale" || info.PSEUDO === "tendershepard")
 		info.PSEUDO = info.PSEUDO+" (Aggroed)";
 	$("#view").append(`<div class='w3-container w3-border w3-round-xlarge w3-gray w3-margin'><h3 class='w3-bottombar'>${info.PSEUDO}</h3>
