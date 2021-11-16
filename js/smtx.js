@@ -28,6 +28,12 @@ $.ajax(
     {
       console.log(element);
       day = new Date(element.created_date);
+
+      if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc" || element.counterparty === "sl-eth")
+        element.counterparty = "(WALLET) "+element.counterparty;
+      else
+        element.counterparty = "<a href='"+weburl+"?username="+element.counterparty+"&token_type="+tokentyp+"'>"+element.counterparty+"</a>";
+
       switch (element.type)
       {
         case 'voucher_drop': // Airdrop voucher
@@ -36,11 +42,6 @@ $.ajax(
           </li>`);
         break;
         case 'token_transfer': // Token transfer
-          if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc" || element.counterparty === "sl-eth")
-            element.counterparty = "(DEX) "+element.counterparty;
-          else
-            element.counterparty = "<a href='"+weburl+"?username="+element.counterparty+"&token_type="+tokentyp+"'>"+element.counterparty+"</a>";
-
           if(element.amount > 0)
           {
             $("#view").append(`<li class="w3-padding-small w3-pale-green"><i class="fas fa-long-arrow-alt-up"></i>
@@ -125,11 +126,6 @@ $.ajax(
           </li>`);
         break;
         case 'withdraw': // Token transfer (DEC)
-          if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc" || element.counterparty === "sl-eth")
-            element.counterparty = "(DEX) "+element.counterparty;
-          else
-            element.counterparty = "<a href='"+weburl+"?username="+element.counterparty+"&token_type="+tokentyp+"'>"+element.counterparty+"</a>";
-
           if(element.amount > 0)
           {
             $("#view").append(`<li class="w3-padding-small w3-pale-green"><i class="fas fa-long-arrow-alt-up"></i>
