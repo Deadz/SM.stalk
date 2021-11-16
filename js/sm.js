@@ -1,6 +1,7 @@
 $pseudo = ["clove71", "smalp", "spswhale", "aggroed", "tendershepard", "nateaguila", "yabapmatt", "cryptomancer", "brybro27", "deadzy", "evomaster", "r0nd0n"];
 i       = 0;
 $today  = Date.now();
+weburl  = window.location.pathname;
 $.ajax( // Prix du DEC
 {
 	url: 'https://prices.splinterlands.com/prices',
@@ -152,7 +153,7 @@ function View(info)
 	if (info.PSEUDO === "smalp" || info.PSEUDO === "spswhale" || info.PSEUDO === "tendershepard")
 		info.PSEUDO = info.PSEUDO+" (Aggroed)";
 	$("#view").append(`<div class='w3-container w3-border w3-round-xlarge w3-gray w3-margin'><h3 class='w3-bottombar'>${info.PSEUDO}</h3>
-		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/11035.png'> SPS : ${info.SPS.toLocaleString()} ${Change(info.SPS,last.SPS, "sps")} || <a href="/tx.html?username=${info.PSEUDO}&token_type=SPS" target="_blank">last tx</a></div>
+		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/11035.png'> SPS : ${info.SPS.toLocaleString()} ${Change(info.SPS,last.SPS, "sps")} || <a href="${weburl}/tx.html?username=${info.PSEUDO}&token_type=SPS">last tx</a></div>
 		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/11035.png'> SPS staked : ${info.SPSP.toLocaleString()} ${Change(info.SPSP,last.SPSP, "sps")}</div>
 		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/6264.png'> DEC : ${info.DEC.toLocaleString()} ${Change(info.DEC,last.DEC, "dec")}</div>
 		<div><img style="width:32px;" class="w3-image" src='https://d36mxiodymuqjm.cloudfront.net/website/icons/img_voucher_chaos-legion_200.png'> Voucher : ${info.VOUCHER.toLocaleString()} ${Change(info.VOUCHER,last.VOUCHER, "voucher")}</div>
