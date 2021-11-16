@@ -1,4 +1,4 @@
-$pseudo = ["clove71", "smalp", "spswhale", "aggroed", "tendershepard", "nateaguila", "yabapmatt", "cryptomancer", "brybro27", "deadzy", "evomaster", "r0nd0n"];
+$pseudo = ["clove71", "smalp", "spswhale", "aggroed", "tendershepard", "nateaguila", "yabapmatt", "cryptomancer", "brybro27"];
 i       = 0;
 $today  = Date.now();
 weburl  = window.location.pathname;
@@ -11,6 +11,7 @@ $.ajax( // Prix du DEC
 	{
 		$decPrice = datas.dec;
 		$spsPrice = datas.sps;
+		Stalk($pseudo[i]);
 	}
 });
 
@@ -161,8 +162,6 @@ function View(info)
 		<div><img style="width:32px;" class="w3-image" src='https://cdn.pixabay.com/photo/2020/04/03/07/07/comic-speech-bubbles-4997664_960_720.png'> Power : ${info.POWER.toLocaleString()} ${Change(info.POWER,last.POWER, "power")}</div>
 		</div>`);
 }
-
-Stalk($pseudo[i]);
 
 // Menu sidebar
 
