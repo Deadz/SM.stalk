@@ -161,9 +161,20 @@ $.ajax(
         break;
         case 'market_fees': // Market fee
           $("#view").append(`<li class="w3-padding-small w3-light-grey"><i class="fas fa-dollar-sign"></i>
-          <i>${day.toLocaleString()}</i> - <b>${element.player}</b> pain <b>${element.amount}</b> ${tokentyp} <b>(Market fee)</b> 
+          <i>${day.toLocaleString()}</i> - <b>${element.player}</b> paid <b>${element.amount}</b> ${tokentyp} <b>(Market fee)</b> 
           </li>`);
         break;
+        case 'tournament_payment': // Tournament payement
+          $("#view").append(`<li class="w3-padding-small w3-light-grey"><i class="fas fa-dollar-sign"></i>
+          <i>${day.toLocaleString()}</i> - <b>${element.player}</b> paid <b>${element.amount}</b> ${tokentyp} <b>(Création tournament)</b> 
+          </li>`);
+        break;
+        case 'unpaid_prizes': // Unpaid prizes
+          $("#view").append(`<li class="w3-padding-small w3-light-grey"><i class="fas fa-dollar-sign"></i>
+          <i>${day.toLocaleString()}</i> - <b>${element.player}</b> refund <b>${element.amount}</b> ${tokentyp} <b>(Unpaid prizes)</b> 
+          </li>`);
+        break;
+        
         default:
           $("#view").append(`<li class="w3-padding-small w3-light-grey">
           <b>${element.player}</b> send <b>${element.amount}</b> ${tokentyp} to <b>${element.counterparty}</b>
