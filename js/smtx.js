@@ -16,6 +16,8 @@ const urlParams = new URLSearchParams(queryString);
 const username  = urlParams.get('username');
 const tokentyp  = urlParams.get('token_type');
 
+$("#viewh1").append(`<b>${username}</b>'s transactions (${tokentyp})`);
+
 $.ajax(
 {
   url: 'https://api2.splinterlands.com/players/balance_history?username='+username+'&token_type='+tokentyp,
@@ -23,7 +25,6 @@ $.ajax(
   type : 'GET',
   success: function(datas)
   {
-    $("#viewh1").append(`<b>${username}</b>'s transactions (${tokentyp})`);
     datas.forEach((element) =>
     {
       console.log(element);
