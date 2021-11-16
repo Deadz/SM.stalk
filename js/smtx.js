@@ -21,6 +21,7 @@ $.ajax(
   url: 'https://api2.splinterlands.com/players/balance_history?username='+username+'&token_type='+tokentyp,
   dataType: 'json',
   type : 'GET',
+  crossDomain: true,
   success: function(datas)
   {
     $("#viewh1").append(`<b>${username}</b>'s transactions (${tokentyp})`);
