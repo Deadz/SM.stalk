@@ -10,6 +10,11 @@ function w3_close()
   document.getElementById("mySidebar").style.display = "none";
 }
 
+String.prototype.capitalize = function()
+{
+   return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 const queryString = window.location.search;
 const weburl      = window.location.pathname;
 const urlParams = new URLSearchParams(queryString);
@@ -24,22 +29,35 @@ $.ajax(
   crossDomain: true,
   success: function(datas)
   {
-    $("#viewh1").append(`<b>${username}</b>'s transactions (${tokentyp})`);
+    $("#viewh1").append(`<b>${username.capitalize()}</b>'s transactions (${tokentyp})`);
     datas.forEach((element) =>
     {
       console.log(element);
-      day = new Date(element.created_date);
+      day  = new Date(element.created_date);
+      dayz = new Date(Date.now());
+      dayz.setDate(dayz.getDate()-1);
+      console.log(day);
+      element.player = element.player.capitalize();
 
-      if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc" || element.counterparty === "sl-eth")
+      if(dayz <= day)
+      {
+        day = `<u><i>${day.toLocaleString()}</i></u>`;
+      }
+      else
+      {
+        day = `<i>${day.toLocaleString()}</i>`;
+      }
+
+      if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc" || element.counterparty === "sl-eth" || element.counterparty === "sl-wax")
         element.counterparty = "(WALLET) "+element.counterparty;
       else
-        element.counterparty = "<a href='"+weburl+"?username="+element.counterparty+"&token_type="+tokentyp+"'>"+element.counterparty+"</a>";
+        element.counterparty = "<a href='"+weburl+"?username="+element.counterparty+"&token_type="+tokentyp+"'>"+element.counterparty.capitalize()+"</a>";
 
       switch (element.type)
       {
         case 'voucher_drop': // Airdrop voucher
-          $("#view").append(`<li class="w3-padding-small w3-light-blue"><i class="fas fa-gift"></i>
-          <i>${day.toLocaleString()}</i> - <b>${element.player}</b> recieved <b>${element.amount}</b> ${tokentyp} <b>(airdropped)</b>
+          $("#view").append(`<li class="w3-padding-small w3-pale-yellow">
+          ${day} <i class="fas fa-circle"></i> <b>${element.player}</b> recieved <b>${element.amount}</b> ${tokentyp} <b>(airdropped)</b>
           </li>`);
         break;
         case 'token_transfer': // Token transfer

@@ -2,7 +2,7 @@ $pseudo = ["clove71", "smalp", "spswhale", "aggroed", "tendershepard", "nateagui
 i       = 0;
 $today  = Date.now();
 weburl  = window.location.pathname;
-$.ajax( // Prix du DEC
+$.ajax( // Prix du DEC & SPS
 {
 	url: 'https://prices.splinterlands.com/prices',
 	dataType: 'json',
@@ -81,16 +81,35 @@ function Stalk(pseudo)
 					dataUser.VOUCHER += parseFloat(response.result.find(e => e.symbol === "VOUCHER").balance);
 				if(response.result.find(e => e.symbol === "CHAOS"))
 					dataUser.CHAOS   += parseFloat(response.result.find(e => e.symbol === "CHAOS").balance);
-				console.log(dataUser);
 
 				$.ajax( // DATA power
 				{
-					url: 'https://api2.splinterlands.com/players/details?name='+pseudo,
+					url: 'https://api2.splinterlands.com/players/sps?username='+pseudo,
 					dataType: 'json',
 					type : 'GET',
 					success: function(datas)
 					{
-						dataUser.POWER = datas.collection_power;
+						airdropDay = "";
+						collection = 0;
+						datas.airdrop.reverse().forEach(function(item)
+						{
+							if(airdropDay === "")
+							{
+								airdropDay = item.airdrop_day;
+							}
+							else
+							{
+								if(airdropDay === item.airdrop_day)
+								{
+									if(item.asset_symbol === "CARD")
+									{
+										collection += item.airdrop_points;
+									}
+								}
+							}
+						});
+
+						dataUser.POWER = collection;
 						dataUser.DATE  = $today;
 
 						if(localStorage.getItem(pseudo) !== null)
@@ -158,9 +177,9 @@ function View(info)
 		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/11035.png'> SPS : ${info.SPS.toLocaleString()} ${Change(info.SPS,last.SPS, "sps")} || <a href="${weburl}tx.html?username=${pseudo}&token_type=SPS" target="_blank"><i class="fas fa-binoculars"></i> last tx</a></div>
 		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/11035.png'> SPS staked : ${info.SPSP.toLocaleString()} ${Change(info.SPSP,last.SPSP, "sps")}</div>
 		<div><img style="width:32px;" class="w3-image" src='https://s2.coinmarketcap.com/static/img/coins/64x64/6264.png'> DEC : ${info.DEC.toLocaleString()} ${Change(info.DEC,last.DEC, "dec")}  || <a href="${weburl}tx.html?username=${pseudo}&token_type=DEC" target="_blank"><i class="fas fa-binoculars"></i> last tx</a></div>
-		<div><img style="width:32px;" class="w3-image" src='https://d36mxiodymuqjm.cloudfront.net/website/icons/img_voucher_chaos-legion_200.png'> Voucher : ${info.VOUCHER.toLocaleString()} ${Change(info.VOUCHER,last.VOUCHER, "voucher")}  || <a href="${weburl}tx.html?username=${pseudo}&token_type=VOUCHER" target="_blank"><i class="fas fa-binoculars"></i>last tx</a></div>
+		<div><img style="width:32px;" class="w3-image" src='https://d36mxiodymuqjm.cloudfront.net/website/icons/img_voucher_chaos-legion_200.png'> Voucher : ${info.VOUCHER.toLocaleString()} ${Change(info.VOUCHER,last.VOUCHER, "voucher")}  || <a href="${weburl}tx.html?username=${pseudo}&token_type=VOUCHER" target="_blank"><i class="fas fa-binoculars"></i> last tx</a></div>
 		<div><img style="width:32px;" class="w3-image" src='https://i.imgur.com/wLuSPIt.png'> Packs Chaos Legion : ${info.CHAOS.toLocaleString()} ${Change(info.CHAOS,last.CHAOS, "chaos")}</div>
-		<div><img style="width:32px;" class="w3-image" src='https://cdn.pixabay.com/photo/2020/04/03/07/07/comic-speech-bubbles-4997664_960_720.png'> Power : ${info.POWER.toLocaleString()} ${Change(info.POWER,last.POWER, "power")}</div>
+		<div><img style="width:32px;" class="w3-image" src='https://cdn.pixabay.com/photo/2020/04/03/07/07/comic-speech-bubbles-4997664_960_720.png'> Collection : ${info.POWER.toLocaleString()} ${Change(info.POWER,last.POWER, "power")}</div>
 		</div>`);
 }
 
