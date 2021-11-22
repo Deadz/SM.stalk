@@ -198,8 +198,8 @@ $.ajax(
           <b>${element.player}</b> send <b class="w3-tag w3-grey w3-round-large">${element.amount}</b> ${tokentyp} to <b>${element.counterparty}</b>
           </li>`);
       }
+      $("#spin").addClass(" w3-hide");
     });
-    $("#spin").addClass(" w3-hide");
   },
   error:function(datas){ console.log(datas);}
 });
