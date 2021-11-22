@@ -96,6 +96,10 @@ function Stalk(pseudo)
 							if(airdropDay === "")
 							{
 								airdropDay = item.airdrop_day;
+								if(item.asset_symbol === "CARD")
+								{
+									collection += item.airdrop_points;
+								}
 							}
 							else
 							{
