@@ -2,6 +2,12 @@ $pseudo = ["clove71", "smalp", "spswhale", "aggroed", "tendershepard", "nateagui
 i       = 0;
 $today  = Date.now();
 weburl  = window.location.pathname;
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const username  = urlParams.get('pseudo');
+console.log(username);
+
 $.ajax( // Prix du DEC & SPS
 {
 	url: 'https://prices.splinterlands.com/prices',
@@ -11,7 +17,14 @@ $.ajax( // Prix du DEC & SPS
 	{
 		$decPrice = datas.dec;
 		$spsPrice = datas.sps;
-		Stalk($pseudo[i]);
+		if(username != null)
+		{
+			Stalk(username);
+		}
+		else
+		{
+			Stalk($pseudo[i]);
+		}
 	}
 });
 
@@ -72,7 +85,6 @@ function Stalk(pseudo)
 
 			$.ajax(settings).done(function (response) // DATA hive-engine
 			{
-				console.log(response.result);
 				if(response.result.find(e => e.symbol === "SPS"))
 					dataUser.SPS     += parseFloat(response.result.find(e => e.symbol === "SPS").balance);
 				if(response.result.find(e => e.symbol === "DEC"))
@@ -82,7 +94,7 @@ function Stalk(pseudo)
 				if(response.result.find(e => e.symbol === "CHAOS"))
 					dataUser.CHAOS   += parseFloat(response.result.find(e => e.symbol === "CHAOS").balance);
 
-				$.ajax( // DATA power
+				$.ajax( // DATA AIRDROP
 				{
 					url: 'https://api2.splinterlands.com/players/sps?username='+pseudo,
 					dataType: 'json',
@@ -91,27 +103,85 @@ function Stalk(pseudo)
 					{
 						airdropDay = "";
 						collection = 0;
+						list_link  = [];
+						datas.airdrop.sort((a, b) => a.airdrop_day - b.airdrop_day);
 						datas.airdrop.reverse().forEach(function(item)
 						{
 							if(airdropDay === "")
 							{
 								airdropDay = item.airdrop_day;
-								if(item.asset_symbol === "CARD")
-								{
-									collection += item.airdrop_points;
-								}
+								switch (item.asset_symbol)
+    							{
+    								case 'CARD':
+    									collection += parseFloat(item.asset_quantity);
+    								break;
+    								case 'DEC':
+    									if(item.platform == "bsc" || item.platform == "ethereum" || item.platform == "tron" || item.platform == "steem_engine")
+    									{
+    										dataUser.DEC += parseFloat(item.asset_quantity);
+    										if(item.platform == "bsc")
+    											list_link.push("<a href='https://bscscan.com/address/"+item.address+"'>(BSC) "+item.address+"</a>");
+    										if(item.platform == "ethereum")
+    											list_link.push("<a href='https://etherscan.io/address/"+item.address+"'>(ETH) "+item.address+"</a>");
+    										if(item.platform == "tron")
+    											list_link.push("<a href='https://tronscan.org/#/address/"+item.address+"'>(TRX) "+item.address+"</a>");
+    									}
+    								break;
+    								case 'CHAOS':
+    									if(item.platform == "bsc" || item.platform == "ethereum" || item.platform == "wax" || item.platform == "steem_engine")
+    									{
+    										dataUser.CHAOS += parseFloat(item.asset_quantity);
+    										if(item.platform == "bsc")
+    											list_link.push("<a href='https://bscscan.com/address/"+item.address+"'>(BSC) "+item.address+"</a>");
+    										if(item.platform == "ethereum")
+    											list_link.push("<a href='https://etherscan.io/address/"+item.address+"'>(ETH) "+item.address+"</a>");
+    										if(item.platform == "wax")
+    											list_link.push("<a href='https://wax.bloks.io/account/"+item.address+"'>(WAX) "+item.address+"</a>");
+    									}
+    								break;
+    							}
 							}
 							else
 							{
 								if(airdropDay === item.airdrop_day)
 								{
-									if(item.asset_symbol === "CARD")
-									{
-										collection += item.airdrop_points;
-									}
+									switch (item.asset_symbol)
+	    							{
+	    								case 'CARD':
+	    									collection += parseFloat(item.asset_quantity);
+	    								break;
+	    								case 'DEC':
+	    									if(item.platform == "bsc" || item.platform == "ethereum" || item.platform == "tron" || item.platform == "steem_engine")
+	    									{
+	    										dataUser.DEC += parseFloat(item.asset_quantity);
+	    										if(item.platform == "bsc")
+	    											list_link.push("<a href='https://bscscan.com/address/"+item.address+"'>(BSC) "+item.address+"</a>");
+	    										if(item.platform == "ethereum")
+	    											list_link.push("<a href='https://etherscan.io/address/"+item.address+"'>(ETH) "+item.address+"</a>");
+	    										if(item.platform == "tron")
+	    											list_link.push("<a href='https://tronscan.org/#/address/"+item.address+"'>(TRX) "+item.address+"</a>");
+	    									}
+	    								break;
+	    								case 'CHAOS':
+	    									if(item.platform == "bsc" || item.platform == "ethereum" || item.platform == "wax" || item.platform == "steem_engine")
+	    									{
+	    										dataUser.CHAOS += parseFloat(item.asset_quantity);
+	    										if(item.platform == "bsc")
+	    											list_link.push("<a href='https://bscscan.com/address/"+item.address+"'>(BSC) "+item.address+"</a>");
+	    										if(item.platform == "ethereum")
+	    											list_link.push("<a href='https://etherscan.io/address/"+item.address+"'>(ETH) "+item.address+"</a>");
+	    										if(item.platform == "wax")
+	    											list_link.push("<a href='https://wax.bloks.io/account/"+item.address+"'>(WAX) "+item.address+"</a>");
+	    									}
+	    								break;
+	    							}
 								}
 							}
 						});
+
+						dataUser.LINK = Array.from(new Set(list_link)).join();
+						console.log(dataUser.LINK);
+
 
 						dataUser.POWER = collection;
 						dataUser.DATE  = $today;
@@ -184,6 +254,7 @@ function View(info)
 		<div><img style="width:32px;" class="w3-image" src='https://d36mxiodymuqjm.cloudfront.net/website/icons/img_voucher_chaos-legion_200.png'> Voucher : ${info.VOUCHER.toLocaleString()} ${Change(info.VOUCHER,last.VOUCHER, "voucher")}  || <a href="${weburl}tx.html?username=${pseudo}&token_type=VOUCHER" target="_blank"><i class="fas fa-binoculars"></i> last tx</a></div>
 		<div><img style="width:32px;" class="w3-image" src='https://i.imgur.com/wLuSPIt.png'> Packs Chaos Legion : ${info.CHAOS.toLocaleString()} ${Change(info.CHAOS,last.CHAOS, "chaos")}</div>
 		<div><img style="width:32px;" class="w3-image" src='https://cdn.pixabay.com/photo/2020/04/03/07/07/comic-speech-bubbles-4997664_960_720.png'> Collection : ${info.POWER.toLocaleString()} ${Change(info.POWER,last.POWER, "power")}</div>
+		<div>Wallet : ${info.LINK}</div>
 		</div>`);
 }
 
