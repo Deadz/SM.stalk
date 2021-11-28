@@ -43,6 +43,8 @@ function Stalk(pseudo)
 				dataUser.SPS     = datas.find(e => e.token === "SPS").balance;
 			if(datas.find(e => e.token === "SPSP"))
 				dataUser.SPSP    = datas.find(e => e.token === "SPSP").balance;
+			else
+				dataUser.SPSP    = 0;
 			if(datas.find(e => e.token === "DEC"))
 				dataUser.DEC     = datas.find(e => e.token === "DEC").balance;
 			if(datas.find(e => e.token === "VOUCHER"))
