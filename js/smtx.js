@@ -47,11 +47,13 @@ $.ajax(
       {
         day = `<i>${day.toLocaleString()}</i>`;
       }
-
-      if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc" || element.counterparty === "sl-eth" || element.counterparty === "sl-wax")
-        element.counterparty = "(WALLET) "+element.counterparty;
-      else
-        element.counterparty = "<a href='"+weburl+"?username="+element.counterparty+"&token_type="+tokentyp+"'>"+element.counterparty.capitalize()+"</a>";
+      if(element.counterparty !== null)
+      {
+        if(element.counterparty === "sl-hive" || element.counterparty === "steem-eng" || element.counterparty === "sl-bsc" || element.counterparty === "sl-eth" || element.counterparty === "sl-wax")
+          element.counterparty = "(WALLET) "+element.counterparty;
+        else
+          element.counterparty = "<a href='"+weburl+"?username="+element.counterparty+"&token_type="+tokentyp+"'>"+element.counterparty.capitalize()+"</a>";
+      }
 
       switch (element.type)
       {

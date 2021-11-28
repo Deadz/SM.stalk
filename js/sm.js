@@ -1,4 +1,4 @@
-$pseudo = ["clove71", "smalp", "spswhale", "aggroed", "tendershepard", "nateaguila", "yabapmatt", "cryptomancer", "brybro27"];
+$pseudo = ["clove71", "smalp", "spswhale", "aggroed", "tendershepard", "nateaguila", "yabapmatt", "cryptomancer", "brybro27", "aatrox", "wer-gewinnt", "beescards", "fighter4-freedom", "jarvie", "renterlands", "neoxian", "moriarty95"];
 i       = 0;
 $today  = Date.now();
 weburl  = window.location.pathname;
